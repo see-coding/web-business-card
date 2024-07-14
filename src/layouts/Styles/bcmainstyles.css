@@ -1,0 +1,39 @@
+#root {
+    height: 100%;
+}
+#main-first {
+    position: absolute;
+}
+#main {
+    position: absolute;
+    z-index: 9;
+}
+
+.longLogoImage {
+    width: 55vw;
+}
+
+.centeredContent {
+    text-align: center;
+    z-index: 10;
+    position: relative;
+}
+
+.contentBusinessCard {
+    display: contents;
+    position: relative;
+    width: 100%;
+}
+
+.customoverlay-green {
+    background: rgba(51, 170, 51, .7);
+}
+
+.customoverlay-dark {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.customoverlay-light {
+    background: rgba(113, 113, 113, 0.7);
+}
+

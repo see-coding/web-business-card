@@ -1,78 +1,39 @@
 /* Styles for Big Screen Views */
-
 .homeTitleHeadline {
     
 }
 
-:root {
-	--black: oklch(17.7% 0.105 262.48);
-	--purple: oklch(60% 0.37 294.7);
-	--orange: oklch(60% 0.37 64.65);
-	--yellow: oklch(60% 0.37 109.08);
-	--blue: oklch(60% 0.37 237.06);
-	--black-alpha-50: color-mix(in oklch, var(--black), transparent);
+.bc-logo {
+	width: 480px !important;
 }
 
-@property --gradient-angle {
-	inherits: false;
-	initial-value: 0deg;
-	syntax: "<angle>";
-}
-
-@keyframes spin {
-	to {
-		--gradient-angle: 360deg;
-	}
-}
-
-section {
-	background: #fff;
-    opacity: .80;
-    padding: 6rem;
-}
-
-.contentBackgroundOverlay {
-	animation: spin 2s linear infinite;
-	background: linear-gradient(to bottom, var(--black), var(--black)) padding-box,
-		conic-gradient(
-				in oklch from var(--gradient-angle),
-				var(--purple),
-				var(--orange),
-				var(--yellow),
-				var(--blue),
-				var(--purple)
-			)
-			border-box;
-	border: 5px solid transparent;
-	border-radius: 20px;
+.card {
+	margin: 0 auto !important;
+	height: 640px !important;
+	width: 1024px !important;
+	max-width: 80%;
 	position: relative;
+	border-radius: 25px;
+	transition: all 1s ease;
+	transform-style: preserve-3d;
+	box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.2);
+  }
 
-	z-index: 0;
+.contact-part {
+	display: flex;
+	background-color: #000;
+    padding: 9px;
+    width: 750px;
+    border-top: solid 3px #ffffff;
+	border-bottom: solid 3px #ffffff;
+}
 
-	&::before {
-		background: #fff;
-		border-radius: 15px;
-		content: "";
-		position: absolute;
-		inset: 0;
-		z-index: 5;
-	}
+.contact-bspace {
+	margin-bottom: 18px !important;
+	background-color: #000;
+    margin: 3px 0 3px 0;
+}
 
-	&::after {
-		animation: spin 2s linear infinite;
-		background: conic-gradient(
-			in oklch from var(--gradient-angle),
-			var(--purple),
-			var(--orange),
-			var(--yellow),
-			var(--blue),
-			var(--purple)
-		);
-		border-radius: 15px;
-		content: "";
-		position: absolute;
-		inset: 0;
-		filter: blur(50px);
-		z-index: 1;
-	}
+.contact-flexline {
+	justify-items: space-around;
 }

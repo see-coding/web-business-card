@@ -1,95 +1,99 @@
 import React from 'react';
-import { useEffect } from 'preact/hooks';
 import { useState } from 'preact/hooks';
-import MapRedirectModal from '../components/MapRedirectModal';
-//import '../layouts/Styles/bigscreenstyle.css';
-import '../layouts/Styles/see-cardflip-style.css';
+import '../layouts/Styles/bigscreenstyle.css';
+import logoLong from '../assets/logo/logo-long.svg';
 
-const ShowBigScreenCard = () => {
-	const [isModalOpen, setIsModalOpen] = useState(false);
-  
-	const openModal = () => setIsModalOpen(true);
-	const closeModal = () => setIsModalOpen(false);
-  
+function ShowBigScreenCard() {
+  const [rotated, setRotated] = useState(false);
 
-    useEffect(() => {
-        const card = document.querySelector('.card');
-        if (card) {
-            function clickRotate() {
-                card.classList.toggle('rotated');
-            }
-            card.addEventListener('click', clickRotate);
+  const toggleRotate = () => setRotated(r => !r);
 
-            return () => {
-                card.removeEventListener('click', clickRotate);
-            };
-        }
-    }, []);
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleRotate();
+    }
+  };
 
-    return (
-        <>
-            <div className="cards-wrapper">
-				<div className="card-container">
-					<div className="card">
-						<div className="card-contents card-front">
-							<div className="card-depth">
-								<img src="./logo-long.svg" className="bc-logo" alt="SEEsg-Logo" />
-								<div className="card-slogan-container">
-									{/* 
-									<hr/>
-									<p className="card-content-sloganline">Ihre Vision, unsere Mission</p>
-									*/}
-								</div>
-							</div>
-						</div>
-						<div className="card-contents card-back">
-							<div className="card-depth-back">
-								<h1 className="black-font black-font-shadow">Sascha Ernst</h1>
-								<hr/>
-								<p className="card-content-sloganline green-font">Inhaber | Entrepreneur | Marketeer | Full-Stack Develover</p>
-								<hr />
-								<div className="contact-bspace contact-part">
-								  <p className="contact-flexline"><img src="./img/see-icon-mobilenotch-dark.svg" alt="phone-logo" className="card-contact-icon" /></p>
-								  <a className="contact-flexline-link" href="tel:+4915119662033">+49 (0)151 19 66 20 33</a>
-								</div>
-								<div className="contact-bspace contact-part">
-								  <p><img src="./img/see-icon-mail-dark.svg" alt="mail-logo" className="card-contact-icon" /></p>
-								  <a className="contact-flexline-link" href="mailto:mail@see-service-group.de">mail@see-service-group.de</a>
-								</div>
-								<div className="contact-bspace contact-part">
-								  <p><img src="./img/see-icon-website-dark.svg" alt="web-logo" className="card-contact-icon" /></p>
-								  <a className="contact-flexline-link" href="https://see-service-group.de" target="_blank">www.see-service-group.de</a>
-								</div>
-								<div className="contact-bspace contact-part">
-								  <p><img src="./img/see-icon-address-dark.svg" alt="address-logo" className="card-contact-icon" /></p>
-								  <div className="contact-block font-no-shadow">
-								  	<b>SEE Service Group</b>
-								  	<br/>
-								  	<i>
-										Franklinstr. 18
-										<br/>
-										58089 Hagen
-								  	</i>
-								  </div>
-								  <div className="contact-button-row">
-									<button 
-										onClick={openModal} 
-										className="contact-button"
-									>
-										Open in Google Maps
-									</button>
-										<MapRedirectModal 
-											isOpen={isModalOpen} 
-											onClose={closeModal} 
-										/>
-								  </div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-        </>
-    );
-};
+  const phone = '+4915196620333';
+  const mail = 'mail@see-service-group.de';
+  const website = 'https://see-service-group.de';
+  const address = 'Franklinstr. 18, 58089 Hagen';
+  const mapsQuery = encodeURIComponent(`${address}`);
+
+  return (
+    <section className="contentBackgroundOverlay" aria-labelledby="card-heading" style={{ height: '75%' }}>
+      <div className="centeredContent">
+        <h1 id="card-heading" className="homeTitleHeadline">SEE Service Group</h1>
+        <h2>Inhaber: Sascha Ernst</h2>
+
+        <div className="card-wrapper">
+          <div
+            className={`card ${rotated ? 'rotated' : ''}`}
+            role="button"
+            tabIndex="0"
+            aria-pressed={rotated}
+            aria-label={rotated ? 'Zeige Vorderseite' : 'Zeige Rückseite'}
+            onClick={toggleRotate}
+            onKeyDown={onKeyDown}
+          >
+            <div className="card-contents card-front" aria-hidden={rotated}>
+              <div className="card-depth">
+                <img src={logoLong} alt="SEE Service Group Logo" />
+                <hr />
+                <p className="motto">Ihre Vision, unsere Mission</p>
+              </div>
+            </div>
+
+            <div className="card-contents card-back" aria-hidden={!rotated}>
+              <div className="card-depth">
+                <h1>Sascha Ernst</h1>
+                <hr />
+                <div className="contact-line">
+                  <strong>Tel:</strong>{' '}
+                  <a href={`tel:${phone.replace(/\s+/g, '')}`} aria-label={`Anrufen ${phone}`}>
+                    {phone}
+                  </a>
+                </div>
+                <div className="contact-line">
+                  <strong>Mail:</strong>{' '}
+                  <a href={`mailto:${mail}`} aria-label={`E-Mail an ${mail}`}>
+                    {mail}
+                  </a>
+                </div>
+                <div className="contact-line">
+                  <strong>Web:</strong>{' '}
+                  <a href={website} target="_blank" rel="noopener noreferrer">
+                    see-service-group.de
+                  </a>
+                </div>
+                <div className="contact-line" style={{ textAlign: 'center' }}>
+                  <strong>Adresse:</strong>
+                  <br />
+                  <span>SEE Service Group</span>
+                  <br />
+                  <span>{address}</span>
+                </div>
+
+                <a
+                  className="map-button"
+                  href="https://maps.app.goo.gl/V5r1gWQdziG3Qggi9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Öffne ${address} in Google Maps`}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/>
+                  </svg>
+                  Karte ansehen
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default ShowBigScreenCard;

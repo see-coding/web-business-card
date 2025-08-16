@@ -9,7 +9,6 @@ body, html, #app {
   touch-action: pan-up;
   color: #ffffff;
   font-family: 'Montserrat', sans-serif;
-  text-shadow: 0 0 5px #ffffff, 0 0 20px #000, 0 0 30px #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,6 +24,9 @@ body, html, #app {
   color: #fff;
 }
 
+.text-white {
+  color: #fff;
+}
 
 .logo {
   height: 6em;
@@ -44,4 +46,3 @@ body, html, #app {
 .read-the-docs {
   color: #888;
 }
-

@@ -1,39 +1,486 @@
-/* Styles for Big Screen Views */
+/* Big screen / card styles - converted to valid CSS and made responsive */
+
+/* Color variables */
+:root {
+  --bg-start: #141e30;
+  --bg-end: #243b55;
+
+  --card-radius: 18px;
+  --card-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  --accent-1: #3a6186;
+  --accent-2: #89253e;
+  --accent-3: #ffa17f;
+  --accent-4: #00223e;
+
+  --map-btn-bg: linear-gradient(90deg,#4f46e5 0%,#8b5cf6 100%);
+  --map-btn-text: #fff;
+  --map-btn-radius: 999px;
+}
+
+@keyframes spin {
+  to { --gradient-angle: 360deg; }
+}
+
+section {
+  background: #fff;
+  opacity: 0.95;
+  padding: 3.5rem;
+  box-sizing: border-box;
+}
+
+/* Background overlay with subtle animated conic glow */
+.contentBackgroundOverlay {
+  position: relative;
+  border-radius: 20px;
+  z-index: 0;
+  overflow: visible;
+  --gradient-angle: 0deg;
+  animation: spin 6s linear infinite;
+  background:
+     linear-gradient(to bottom, rgba(255,255,255,0.95), rgba(255,255,255,0.95)) padding-box,
+     conic-gradient(from var(--gradient-angle), #6b21a8, #f97316, #facc15, #2563eb, #6b21a8) border-box;
+  border: 6px solid transparent;
+  box-shadow: 0 6px 30px rgba(0,0,0,0.15);
+  height: 100vh;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* inner white plate to keep text readable */
+.contentBackgroundOverlay::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  background: #ffffff;
+  border-radius: 14px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* blurred color bloom behind card */
+.contentBackgroundOverlay::after {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: conic-gradient(from var(--gradient-angle), #6b21a8, #f97316, #facc15, #2563eb, #6b21a8);
+  filter: blur(40px);
+  z-index: 1;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* Centered content sits above the decorative layers */
+.centeredContent {
+  position: relative;
+  z-index: 5;
+  max-width: 1100px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Headline styles */
 .homeTitleHeadline {
-    
+  margin: 0 0 0.2rem 0;
+  font-size: 2rem;
+  letter-spacing: 0.06em;
+  color: #111827;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.12);
 }
 
-.bc-logo {
-	width: 480px !important;
+/* subtitle */
+.centeredContent h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.1rem;
+  color: #374151;
+  font-weight: 600;
 }
 
+/* Card wrapper */
+.card-wrapper {
+  margin: 2rem auto 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 3D card base (adjusted per request) */
 .card {
-	margin: 0 auto !important;
-	height: 640px !important;
-	width: 1024px !important;
-	max-width: 80%;
-	position: relative;
-	border-radius: 25px;
-	transition: all 1s ease;
-	transform-style: preserve-3d;
-	box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.2);
+  width: 585px;
+  max-width: 89vw;
+  height: 420px;
+  border-radius: var(--card-radius);
+  position: relative;
+  transition: transform 0.9s cubic-bezier(.2,.9,.3,1);
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow: var(--card-shadow);
+  cursor: pointer;
+  background: transparent;
+  display: block;
+}
+
+/* rotated state */
+.card.rotated {
+  transform: rotateY(-180deg);
+}
+
+/* contents shared between front/back */
+.card-contents {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--card-radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  box-sizing: border-box;
+  padding: 2rem;
+}
+
+/* front/back visual styles */
+.card-front {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  color: #fff;
+}
+
+.card-back {
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+  color: #fff;
+  transform: rotateY(180deg);
+}
+
+/* 'depth' container for subtle translateZ elements */
+.card-depth {
+  transform: translateZ(40px) scale(0.985);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* front image */
+.card-depth img {
+  width: min(420px, 75%);
+  height: auto;
+  display: block;
+}
+
+/* motto on the card front */
+.motto {
+  margin-top: 0.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.95);
+  text-transform: none;
+  letter-spacing: 0.01em;
+}
+
+/* typography inside the card */
+.card-contents h1, .card-contents h2, .card-contents h3 {
+  margin: 0;
+  color: inherit;
+}
+.card-contents p {
+  margin: 0.25rem 0;
+  color: inherit;
+}
+
+/* Splash / animated headline (per-letter animation) */
+.splash-slogan {
+  display: none; /* legacy element kept hidden; using .ml1 animated headline instead */
+}
+
+/* Animated per-letter headline (used in initial splash) */
+.ml1 {
+  font-weight: 700;
+  font-size: 2.2rem;
+  line-height: 1;
+  display: inline-block;
+  text-transform: none;
+  color: #111827;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0.02em;
+}
+
+/* wrapper that contains the animated lines and letters */
+.ml1 .text-wrapper {
+  display: inline-block;
+  position: relative;
+  padding: 0.25rem 0.5rem;
+}
+
+/* decorative lines left/right */
+.ml1 .line {
+  display: inline-block;
+  width: auto;
+  height: 4px;
+  background: linear-gradient(90deg, #6b21a8, #8b5cf6);
+  vertical-align: middle;
+  margin: 0 0.5rem;
+  opacity: 0.9;
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform .45s ease, opacity .2s linear;
+}
+
+/* letters container */
+.ml1 .letters {
+  display: inline-block;
+  white-space: pre;
+}
+
+/* individual letter animation */
+.ml1 .letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  animation: letterIn 0.5s ease forwards;
+  will-change: transform, opacity;
+}
+
+/* stagger letters with inline style animationDelay set from JSX */
+@keyframes letterIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* expand lines after letters animate */
+@keyframes lineExpand {
+  to {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+/* small helper to trigger line animations via inline style delays */
+.ml1 .line1,
+.ml1 .line2 {
+  transform: scaleX(0);
+  opacity: 0;
+  transform-origin: left center;
+  transition: transform .45s ease, opacity .2s linear;
+}
+
+/* when visible, expand the lines (JSX sets inline animationDelay on each line) */
+.ml1.visible .line1,
+.ml1.visible .line2 {
+  transform: scaleX(1);
+  opacity: 1;
+}
+
+/* keep the smaller slogan used on the card front */
+.slogan {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: capitalize;
+  color: #ffffff;
+  animation: sloganIn 1s ease 0.2s both;
+  transform-origin: center;
+}
+
+/* simple entrance for slogans */
+@keyframes sloganIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes sloganIn {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* divider */
+.card-contents hr {
+  width: 50%;
+  margin: 0.75rem auto;
+  border: none;
+  height: 1px;
+  background: rgba(255,255,255,0.25);
+}
+
+/* contact lines */
+.contact-line {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+}
+
+/* link styles */
+.card-contents a {
+  color: rgba(255,255,255,0.95);
+  text-decoration: underline;
+}
+
+/* Map button - polished, pill shaped with icon */
+.map-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  padding: 0.6rem 1rem;
+  background: var(--map-btn-bg);
+  color: var(--map-btn-text);
+  border-radius: var(--map-btn-radius);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(79,70,229,0.25);
+  transform: translateZ(20px);
+  border: 0;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+}
+.map-button svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+.map-button:hover,
+.map-button:focus {
+  transform: translateZ(22px) translateY(-2px);
+  box-shadow: 0 12px 30px rgba(79,70,229,0.25);
+  opacity: 0.98;
+  outline: none;
+}
+
+/* accessibility focus ring */
+.map-button:focus {
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.16), 0 8px 24px rgba(2,6,23,0.2);
+}
+
+/* responsive adjustments */
+/* Responsive: Tablets and phones
+   Mobile-first adjustments so the content adapts to smaller viewports.
+   Overrides any desktop-only inline heights on small screens.
+*/
+
+/* Larger tablets / small laptops (<=1024px) */
+@media (max-width: 1024px) {
+  section { padding: 2rem; }
+  .card {
+    width: 520px;
+    height: 420px;
+    max-width: 86vw;
+  }
+  .homeTitleHeadline { font-size: 1.6rem; }
+  .ml1 { font-size: 1.95rem; }
+}
+
+/* Medium tablets / large phones (<=768px)
+   Change layout to be more fluid: card becomes flexible height,
+   content stacks vertically and spacing reduces.
+*/
+@media (max-width: 768px) {
+  section { padding: 1.25rem; }
+  .card {
+    width: 92%;
+    max-width: 720px;
+    height: auto;
+    border-radius: calc(var(--card-radius) - 2px);
+  }
+  .homeTitleHeadline { font-size: 1.45rem; }
+  .ml1 { font-size: 1.6rem; }
+  .card-contents { padding: 1rem; gap: 0.6rem; align-items: center; justify-content: center; }
+  .card-depth { transform: translateZ(18px) scale(0.99); gap: 0.6rem; }
+  /* Hide heavy animated background on smaller screens for performance */
+  .tag-scrollers { display: none; }
+  /* Allow overlay to shrink on smaller screens instead of fixed 75% */
+  .contentBackgroundOverlay { height: auto !important; padding-top: 2rem; padding-bottom: 2rem; }
+}
+
+/* Phones / small screens (<=520px)
+   Full responsive treatment: full-width card with readable typography,
+   larger touch targets, stacked content and full-width map button.
+*/
+@media (max-width: 520px) {
+  section { padding: 0.75rem; }
+  .centeredContent { padding: 0.75rem; }
+  .card {
+    height: auto;
+    width: 100%;
+    max-width: 96vw;
+    border-radius: calc(var(--card-radius) - 6px);
+    padding: 0.75rem 0.5rem;
+  }
+  .card-depth {
+    gap: 0.6rem;
+    transform: translateZ(12px) scale(1);
+  }
+  .card-depth img { width: min(260px, 60%); }
+  .homeTitleHeadline { font-size: 1.15rem; }
+  .ml1 { font-size: 1.25rem; }
+  .card-contents { padding: 0.75rem; flex-direction: column; gap: 0.6rem; align-items: center; }
+  .motto { font-size: 0.95rem; }
+  .contact-line { font-size: 0.95rem; line-height: 1.3; }
+  /* Make the map button full-width on narrow screens for easier tapping */
+  .map-button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.9rem 1rem;
+    font-size: 1rem;
+    box-shadow: none;
+  }
+  .map-button svg { width: 1.15rem; height: 1.15rem; }
+  /* Improve touch behaviour */
+  .card { touch-action: manipulation; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+  /* Reduce heavy effects for battery saving */
+  .contentBackgroundOverlay::after { filter: blur(20px); opacity: 0.18; }
+
+  /* Ensure the overlay doesn't keep a fixed height on phones */
+  .contentBackgroundOverlay { height: auto !important; padding-top: 1rem; padding-bottom: 1rem; }
+
+  /* Show mobile stacked contacts and hide the 3D back-face on small screens */
+  .mobile-contacts {
+    display: block;
+    margin-top: 1rem;
+    width: 100%;
+    max-width: 96vw;
+    text-align: left;
+    background: rgba(255,255,255,0.02);
+    padding: 0.75rem;
+    border-radius: 12px;
+    box-sizing: border-box;
+  }
+  .mobile-contacts .contact-line {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    justify-content: flex-start;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+  }
+  .mobile-contacts .contact-line:last-child {
+    border-bottom: none;
   }
 
-.contact-part {
-	display: flex;
-	background-color: #000;
-    padding: 9px;
-    width: 750px;
-    border-top: solid 3px #ffffff;
-	border-bottom: solid 3px #ffffff;
+  /* Keep the card-front visible; hide the back panel for mobile stacked view */
+  .card-contents.card-back {
+    display: none;
+  }
+
+  /* Ensure map-button inside mobile-contacts is full width and visible */
+  .mobile-contacts .map-button {
+    width: 100%;
+    margin-top: 0.75rem;
+  }
 }
 
-.contact-bspace {
-	margin-bottom: 18px !important;
-	background-color: #000;
-    margin: 3px 0 3px 0;
-}
-
-.contact-flexline {
-	justify-items: space-around;
+/* keyboard focus visible for card */
+.card:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(99,102,241,0.08);
 }

@@ -1,21 +1,22 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import '../layouts/Styles/fadeout.css';
 import '../layouts/Styles/fadein.css';
-import ShowLogoFirst from '../pageviews/ShowLogoFirstView'
-import FinalView from '../pageviews/ShowFinalView'
-import AnimatedFontsBackground from '../layouts/Backgrounds/AnimatedFontsBackground';
+import ShowLogoFirst from '../pageviews/ShowLogoFirstView.jsx';
+import FinalView from '../pageviews/ShowFinalView.jsx';
+import AnimatedFontsBackground from '../layouts/Backgrounds/AnimatedFontsBackground.jsx';
 
 function SeeBusinessCardContent() {
   return (
     <>
       <div id="app" className="customoverlay-light">
-		    <AnimatedFontsBackground />
+        <AnimatedFontsBackground />
         <div id="hero" className="contentBusinessCard customoverlay-light">
-          	<ShowLogoFirst />
-          	<FinalView />
+          <ShowLogoFirst />
+          <FinalView />
         </div>
-    </div>  
+      </div>
     </>
   );
 }
+
 export default SeeBusinessCardContent;
